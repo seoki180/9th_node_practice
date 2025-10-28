@@ -1,0 +1,24 @@
+import './env';
+import express from 'express';
+import cors from 'cors';
+import { storeRouter } from './routes/store/store.controller';
+import morgan from 'morgan';
+import { errorHandler } from './middleware/error';
+
+const app = express();
+const port = process.env.EC2_PORT || 3000;
+
+app.use(cors());
+app.use(express.json()); // JSON 본문을 파싱
+app.use(express.urlencoded({ extended: true })); // HTML Form에서 전송된 데이터를 파싱
+app.use(morgan('dev')); // HTTP Req 요청 로그 출력
+
+// //라우터 설정
+
+app.use('/store', storeRouter);
+// 에러 처리
+app.use(errorHandler);
+
+app.listen(port, () => {
+  console.log(`Sever is running on port ${port}`);
+});

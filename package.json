@@ -1,0 +1,35 @@
+{
+  "name": "9th_node_practice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec ts-node src/app.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seoki180/9th_node_practice.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seoki180/9th_node_practice/issues"
+  },
+  "homepage": "https://github.com/seoki180/9th_node_practice#readme",
+  "dependencies": {
+    "@types/express": "^5.0.5",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mysql2": "^3.15.3",
+    "tsoa": "^6.6.0",
+    "ulid": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/dotenv": "^6.1.1",
+    "@types/morgan": "^1.9.10",
+    "morgan": "^1.10.1"
+  }
+}
