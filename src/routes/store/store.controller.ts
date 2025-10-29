@@ -1,11 +1,18 @@
 import express from 'express';
-import { StoreService } from './store.serivce';
+import { StoreService } from './store.service';
 import { AddStoreDto } from './store.dto';
 import { Request, Response } from 'express';
 import { ResponseBase } from '../../config/response';
 
 const storeRouter = express.Router();
 class StoreController {
+  // {
+  //  "area_index": "test",
+  //  "name": "박지혜순대국",
+  //  "location":"인하대",
+  //  "lat":12,
+  //  "lng":12
+  // }
   static async addStore(req: Request, res: Response) {
     try {
       const addStoreDto: AddStoreDto = new AddStoreDto(req.body);

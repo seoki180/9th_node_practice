@@ -3,8 +3,8 @@ import { AddStoreDto } from './store.dto';
 
 export class StoreModel {
   static async insertStore(addStoreDto: AddStoreDto) {
-    console.log(process.env.INSERT_STORE_Q);
-    const query: string = process.env.INSERT_STORE_Q ?? '';
+    const queryString = process.env.INSERT_STORE_Q;
+    const query: string = queryString ?? '';
     const { store_index, area_index, name, location, lat, lng } = addStoreDto;
 
     return new Promise((resolve, reject) => {

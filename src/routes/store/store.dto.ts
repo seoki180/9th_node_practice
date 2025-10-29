@@ -18,9 +18,6 @@ export class AddStoreDto {
     this.location = body.location ?? '';
     this.lat = body.lat ?? 0;
     this.lng = body.lng ?? 0;
-    // DTO에서 에러를 발생시키는 건 흔하지 않습니다.
-    // 일반적으로 DTO는 데이터 구조/타입 정의에 집중하고, 유효성 검증/에러 처리는 service 또는 middleware 레이어에서 처리합니다.
-    // 단, 엄격한 값 체크가 필요하다면 예외적으로 DTO에서 에러를 throw할 수도 있지만, 일반적으로는 class-validator 등의 라이브러리를 활용합니다.
   }
 }
 
