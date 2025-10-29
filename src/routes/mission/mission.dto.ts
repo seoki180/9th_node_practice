@@ -21,3 +21,25 @@ export class AddMissionDto {
     this.status = body.status ?? null;
   }
 }
+
+export class UpdateMissionDto {
+  mission_Index!: string;
+  mission_status!: MissionStatus;
+  area_Index!: string;
+  store_Index!: string;
+  user_Index!: string;
+
+  constructor(body: any) {
+    this.mission_Index = body.mission_Index ?? '';
+    this.mission_status = body.mission_status ?? null;
+    this.user_Index = body.user_Index ?? '';
+  }
+}
+
+export interface SelectMission {
+  mission_Index: string;
+  mission_status: MissionStatus;
+  area_Index: string;
+  store_Index: string;
+  user_Index: string;
+}

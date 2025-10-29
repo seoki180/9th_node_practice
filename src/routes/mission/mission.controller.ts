@@ -1,6 +1,6 @@
 import express from 'express';
 import { Request, Response } from 'express';
-import { AddMissionDto } from './mission.dto';
+import { AddMissionDto, UpdateMissionDto } from './mission.dto';
 import { MissionService } from './mission.service';
 import { ResponseBase } from '../../config/response';
 const missionRouter = express.Router();
@@ -26,7 +26,6 @@ class MissionController {
         })
       );
     } catch (error: any) {
-      console.log(error);
       res.status(500).json(
         new ResponseBase({
           resultType: 'FAIL',
@@ -37,8 +36,38 @@ class MissionController {
       );
     }
   }
+
+  // {
+  //     "mission_Index" : "01K8RAA94V3N9A4F1D6K000PZT",
+  //     "user_Index":"1234",
+  //     "mission_status" : "pending"
+  // }
+  static async startMission(req: Request, res: Response) {
+    try {
+      const startMissionDto: UpdateMissionDto = new UpdateMissionDto(req.body);
+
+      await MissionService.startMission(startMissionDto);
+
+      res.json(
+        new ResponseBase({
+          resultType: 'SUCCESS',
+          data: null,
+          message: '미션 시작 성공'
+        })
+      );
+    } catch (error: any) {
+      res.status(500).json(
+        new ResponseBase({
+          resultType: 'FAIL',
+          data: null,
+          message: '미션 시작 실패',
+          error: error.message
+        })
+      );
+    }
+  }
 }
 
 missionRouter.post('/add', MissionController.addMission);
-
+missionRouter.post('/start', MissionController.startMission);
 export { missionRouter };
