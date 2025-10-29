@@ -4,6 +4,7 @@ import cors from 'cors';
 import { storeRouter } from './routes/store/store.controller';
 import morgan from 'morgan';
 import { errorHandler } from './middleware/error';
+import { missionRouter } from './routes/mission/mission.controller';
 
 const app = express();
 const port = process.env.EC2_PORT || 3000;
@@ -16,6 +17,7 @@ app.use(morgan('dev')); // HTTP Req 요청 로그 출력
 // //라우터 설정
 
 app.use('/store', storeRouter);
+app.use('/mission', missionRouter);
 // 에러 처리
 app.use(errorHandler);
 
