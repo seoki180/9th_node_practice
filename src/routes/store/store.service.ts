@@ -10,6 +10,8 @@ export class StoreService {
     return addStoreDto;
   }
   public static async addReview(addReviewDto: AddReviewDto) {
+    const check = await StoreModel.selectStore(addReviewDto);
+    if (check.length == 0) throw new Error('가게가 존재하지 않습니다.');
     addReviewDto.review_Index = ulid();
     const review = await StoreModel.insertReview(addReviewDto);
 
