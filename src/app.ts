@@ -17,9 +17,9 @@ app.use(morgan('dev')); // HTTP Req 요청 로그 출력
 
 // //라우터 설정
 
-app.use('/store', storeRouter);
-app.use('/mission', missionRouter);
-app.use('/user', userRouter);
+app.use('/api/store', storeRouter);
+app.use('/api/mission', missionRouter);
+app.use('/api/user', userRouter);
 // 에러 처리
 app.use(errorHandler);
 
