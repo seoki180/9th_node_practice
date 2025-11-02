@@ -1,6 +1,6 @@
 import express from 'express';
 import { StoreService } from './store.service';
-import { AddStoreDto } from './store.dto';
+import { AddReviewDto, AddStoreDto } from './store.dto';
 import { Request, Response } from 'express';
 import { ResponseBase } from '../../config/response';
 
@@ -37,8 +37,38 @@ class StoreController {
       );
     }
   }
+
+  // {
+  //   "store_Index": "01K8RAA94V3N9A4F1D6K000PZT",
+  //   "user_Index": "01K8RAA94V3N9A4F1D6K000PZT",
+  //   "contents": "test",
+  //   "stars": 5
+  // }
+  static async addReview(req: Request, res: Response) {
+    try {
+      const addReviewDto: AddReviewDto = new AddReviewDto(req.body);
+      const review = await StoreService.addReview(addReviewDto);
+      res.json(
+        new ResponseBase({
+          resultType: 'SUCCESS',
+          data: review,
+          message: '리뷰 생성 성공'
+        })
+      );
+    } catch (error: any) {
+      console.log(error);
+      res.status(500).json(
+        new ResponseBase({
+          resultType: 'FAIL',
+          data: null,
+          message: '리뷰 생성 실패',
+          error: error.message
+        })
+      );
+    }
+  }
 }
 
 storeRouter.post('/add', StoreController.addStore);
-
+storeRouter.post('/review/add', StoreController.addReview);
 export { storeRouter };

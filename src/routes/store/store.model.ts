@@ -1,5 +1,5 @@
 import pool from '../../config/db';
-import { AddStoreDto } from './store.dto';
+import { AddReviewDto, AddStoreDto } from './store.dto';
 
 export class StoreModel {
   static async insertStore(addStoreDto: AddStoreDto) {
@@ -11,6 +11,22 @@ export class StoreModel {
       pool.query(
         query,
         [store_index, area_index, name, location, lat, lng],
+        (err, result) => {
+          if (err) reject(err);
+          else resolve(result);
+        }
+      );
+    });
+  }
+  static async insertReview(addReviewDto: AddReviewDto) {
+    const queryString = process.env.INSERT_REVIEW_Q;
+    const query: string = queryString ?? '';
+    const { review_Index, store_Index, user_Index, contents, stars } =
+      addReviewDto;
+    return new Promise((resolve, reject) => {
+      pool.query(
+        query,
+        [review_Index, store_Index, user_Index, contents, stars],
         (err, result) => {
           if (err) reject(err);
           else resolve(result);

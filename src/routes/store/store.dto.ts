@@ -4,6 +4,8 @@
 // 실무적으로는 확장성/유연성 및 데코레이터를 이용한 검증 로직을 위해 class가 더 많이 쓰입니다.
 
 // 예시: class 기반 DTO
+
+import { IsString, IsNumber, IsDate, Max, validate } from 'class-validator';
 export class AddStoreDto {
   area_index!: string;
   name!: string;
@@ -21,11 +23,29 @@ export class AddStoreDto {
   }
 }
 
-// --- 또는 interface로도 작성 가능 ---
-// export interface AddStoreDto {
-//   area_index: string;
-//   name: string;
-//   location: string;
-//   latitude: number;
-//   longitude: number;
-// }
+export class AddReviewDto {
+  @IsString()
+  review_Index!: string;
+  @IsString()
+  store_Index!: string;
+  @IsString()
+  user_Index!: string;
+  @IsString()
+  contents!: string;
+  @IsNumber()
+  @Max(5)
+  stars: number;
+  @IsDate()
+  created_at!: Date;
+
+  constructor(body: any) {
+    this.store_Index = body.store_Index;
+    this.user_Index = body.user_Index;
+    this.contents = body.contents;
+    this.stars = body.stars ?? 0;
+    this.created_at = new Date();
+    // validate(this).then((errors) => {
+    //   console.log(errors.map((error) => error.property));
+    // });
+  }
+}
