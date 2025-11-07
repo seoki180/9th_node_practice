@@ -1,11 +1,13 @@
-import { QueryResult, RowDataPacket } from 'mysql2';
-import pool from '../../config/db';
+import { prisma } from '../../config/prisma';
 import { AddMissionDto, SelectMission, UpdateMissionDto } from './mission.dto';
+import {
+  Missions,
+  User_Mission,
+  User_Mission_mission_status
+} from '../../generated/prisma/client';
 
 export class MissionModel {
-  static async insertMission(addMissionDto: AddMissionDto) {
-    const queryString = process.env.INSERT_MISSION_Q;
-    const query: string = queryString ?? '';
+  static async insertMission(addMissionDto: AddMissionDto): Promise<Missions> {
     const {
       mission_index,
       store_index,
@@ -16,48 +18,40 @@ export class MissionModel {
       created_at
     } = addMissionDto;
 
-    return new Promise((resolve, reject) => {
-      pool.query(
-        query,
-        [
-          mission_index,
-          store_index,
-          area_index,
-          contents,
-          point,
-          status,
-          created_at
-        ],
-        (err, result) => {
-          if (err) reject(err);
-          else resolve(result);
-        }
-      );
+    return await prisma.missions.create({
+      data: {
+        mission_Index: mission_index,
+        store_Index: store_index,
+        area_Index: area_index,
+        contents,
+        point,
+        status,
+        created_at
+      }
     });
   }
 
-  static async checkMission(
-    updateMissionDto: UpdateMissionDto
-  ): Promise<SelectMission[]> {
-    const queryString = process.env.SELECT_MISSION_Q;
-    const query: string = queryString ?? '';
-
+  static async checkMission(updateMissionDto: UpdateMissionDto): Promise<any> {
     const { mission_Index } = updateMissionDto;
 
-    return new Promise((resolve, reject) => {
-      pool.query<RowDataPacket[]>(query, [mission_Index], (err, result) => {
-        if (err) reject(err);
-        else resolve(result as SelectMission[]);
-      });
+    const missions = await prisma.missions.findMany({
+      select: {
+        mission_Index: true,
+        status: true,
+        area_Index: true,
+        store_Index: true
+      },
+      where: {
+        mission_Index
+      }
     });
+
+    return missions;
   }
 
   static async updateMission(
     updateMissionDto: UpdateMissionDto
-  ): Promise<void> {
-    const queryString = process.env.UPDATE_MISSION_Q;
-    const query: string = queryString ?? '';
-
+  ): Promise<User_Mission> {
     const {
       mission_Index,
       mission_status,
@@ -66,15 +60,23 @@ export class MissionModel {
       user_Index
     } = updateMissionDto;
 
-    return new Promise((resolve, reject) => {
-      pool.query(
-        query,
-        [mission_Index, user_Index, mission_status, area_Index, store_Index],
-        (err, result) => {
-          if (err) reject(err);
-          else resolve();
+    return await prisma.user_Mission.upsert({
+      where: {
+        mission_Index_user_Index: {
+          mission_Index,
+          user_Index
         }
-      );
+      },
+      update: {
+        mission_status: mission_status
+      },
+      create: {
+        mission_Index,
+        user_Index,
+        store_Index,
+        area_Index,
+        mission_status: mission_status
+      }
     });
   }
 }

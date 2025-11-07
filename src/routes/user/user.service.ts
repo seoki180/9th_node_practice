@@ -5,8 +5,7 @@ import { UserModel } from './user.model';
 
 export class UserService {
   public static async idCheckService(id: string): Promise<void> {
-    const isDup =
-      (await UserModel.selectUserInfo(id)).length > 0 ? true : false;
+    const isDup = await UserModel.selectUserInfo(id);
     if (isDup) {
       throw new Error('아이디가 중복됨');
     }

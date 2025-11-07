@@ -1,0 +1,174 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Areas {
+  area_Index    String @id @db.VarChar(255)
+  mission_count Int?
+}
+
+model Food_type {
+  food_index String          @id @db.VarChar(255)
+  type       Food_type_type?
+}
+
+model Inquirys {
+  inquiry_Index String    @db.VarChar(255)
+  user_Index    String    @db.VarChar(255)
+  contents      String?   @db.Text
+  title         String?   @db.VarChar(30)
+  creaete_at    DateTime? @db.Timestamp(0)
+  status        Int?      @db.TinyInt
+  type          String?   @db.VarChar(30)
+
+  @@id([inquiry_Index, user_Index])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model Missions {
+  mission_Index String           @id @db.VarChar(255)
+  store_Index   String           @db.VarChar(255)
+  area_Index    String           @db.VarChar(255)
+  contents      String?          @db.VarChar(100)
+  point         Int?
+  status        Missions_status?
+  created_at    DateTime?        @db.DateTime(0)
+}
+
+model Notification {
+  notification_Index String    @id @db.VarChar(255)
+  user_Index         String    @db.VarChar(255)
+  event              Boolean?
+  review             Boolean?
+  inquiry            Boolean?
+  created_at         DateTime? @db.DateTime(0)
+  push_token         String?   @db.VarChar(255)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model Owner {
+  owner_Index String @id @db.VarChar(255)
+  user_Index  String @db.VarChar(255)
+  store_Index String @db.VarChar(255)
+  area_Index  String @db.VarChar(255)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model Points {
+  point_Index   String    @id @db.VarChar(255)
+  user_Index    String    @db.VarChar(255)
+  store_Index   String    @db.VarChar(255)
+  area_Index    String    @db.VarChar(255)
+  mission_Index String    @db.VarChar(255)
+  point         Int?
+  update_at     DateTime? @db.Timestamp(0)
+}
+
+model Review_photo {
+  Review_photo_Index String    @id @db.VarChar(255)
+  review_Index       String    @db.VarChar(255)
+  store_Index        String    @db.VarChar(255)
+  user_Index         String    @db.VarChar(255)
+  s3url              String?   @db.VarChar(255)
+  created_at         DateTime? @db.DateTime(0)
+}
+
+model Reviews {
+  review_Index String    @id @db.VarChar(255)
+  store_Index  String    @db.VarChar(255)
+  user_Index   String    @db.VarChar(255)
+  contents     String?   @db.VarChar(300)
+  create_at    DateTime? @db.DateTime(0)
+  stars        Int?
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model Store_food_type {
+  store_Index String @db.VarChar(255)
+  area_Index  String @db.VarChar(255)
+  food_index  String @db.VarChar(255)
+
+  @@ignore
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model Stores {
+  store_Index String    @db.VarChar(255)
+  area_Index  String    @db.VarChar(255)
+  name        String?   @db.VarChar(100)
+  location    String?   @db.VarChar(100)
+  lat         String?   @db.VarChar(100)
+  lng         String?   @db.VarChar(100)
+  created_at  DateTime? @db.DateTime(0)
+  avg_star    Int?
+
+  @@id([store_Index, area_Index])
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model User_Area {
+  area_Index String @db.VarChar(255)
+  user_Index String @db.VarChar(255)
+
+  @@ignore
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model User_Mission {
+  user_Index     String                       @db.VarChar(255)
+  mission_Index  String                       @db.VarChar(255)
+  store_Index    String                       @db.VarChar(255)
+  area_Index     String                       @db.VarChar(255)
+  mission_status User_Mission_mission_status?
+
+  @@id([mission_Index, user_Index])
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model User_prefer_Food_type {
+  food_index String @db.VarChar(255)
+  user_Index String @db.VarChar(255)
+
+  @@ignore
+}
+
+model Users {
+  user_Index  String    @id @db.VarChar(255)
+  name        String?   @db.VarChar(100)
+  id          String    @db.VarChar(100)
+  password    String    @db.VarChar(100)
+  email       String?   @db.VarChar(100)
+  birthday    DateTime? @db.DateTime(0)
+  address     String?   @db.VarChar(100)
+  gender      Int?      @db.TinyInt
+  point       Int?
+  profile_url String?   @db.VarChar(255)
+  salt        String?   @db.VarChar(255)
+  phone       String?   @db.VarChar(50)
+}
+
+enum Food_type_type {
+  한식 @map("한식")
+  양식 @map("양식")
+  중식 @map("중식")
+  일식 @map("일식")
+}
+
+enum User_Mission_mission_status {
+  pending
+  progress
+  done
+}
+
+enum Missions_status {
+  pending
+  progress
+  done
+}

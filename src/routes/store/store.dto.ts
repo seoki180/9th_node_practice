@@ -10,16 +10,16 @@ export class AddStoreDto {
   area_index!: string;
   name!: string;
   location!: string;
-  lat!: number;
-  lng!: number;
+  lat!: string;
+  lng!: string;
   store_index!: string;
 
   constructor(body: any) {
     this.area_index = body.area_index ?? '';
     this.name = body.name ?? '';
     this.location = body.location ?? '';
-    this.lat = body.lat ?? 0;
-    this.lng = body.lng ?? 0;
+    this.lat = body.lat ?? '';
+    this.lng = body.lng ?? '';
   }
 }
 

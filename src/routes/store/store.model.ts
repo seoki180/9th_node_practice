@@ -1,50 +1,47 @@
-import pool from '../../config/db';
+import { prisma } from '../../config/prisma';
 import { AddReviewDto, AddStoreDto } from './store.dto';
+import { Stores, Reviews } from '../../generated/prisma/client';
 
 export class StoreModel {
-  static async selectStore(addReviewDto: AddReviewDto): Promise<any> {
-    const queryString = process.env.SELECT_STORE_Q;
-    const query: string = queryString ?? '';
-
+  static async selectStore(addReviewDto: AddReviewDto): Promise<Stores | null> {
     const { store_Index } = addReviewDto;
-    return new Promise((resolve, reject) => {
-      pool.query(query, [store_Index], (err, result) => {
-        if (err) reject(err);
-        else resolve(result);
-      });
+
+    return await prisma.stores.findFirst({
+      where: {
+        store_Index
+      }
     });
   }
 
-  static async insertStore(addStoreDto: AddStoreDto) {
-    const queryString = process.env.INSERT_STORE_Q;
-    const query: string = queryString ?? '';
+  static async insertStore(addStoreDto: AddStoreDto): Promise<Stores> {
     const { store_index, area_index, name, location, lat, lng } = addStoreDto;
 
-    return new Promise((resolve, reject) => {
-      pool.query(
-        query,
-        [store_index, area_index, name, location, lat, lng],
-        (err, result) => {
-          if (err) reject(err);
-          else resolve(result);
-        }
-      );
+    return await prisma.stores.create({
+      data: {
+        store_Index: store_index,
+        area_Index: area_index,
+        name,
+        location,
+        lat,
+        lng,
+        created_at: new Date()
+      }
     });
   }
-  static async insertReview(addReviewDto: AddReviewDto) {
-    const queryString = process.env.INSERT_REVIEW_Q;
-    const query: string = queryString ?? '';
+
+  static async insertReview(addReviewDto: AddReviewDto): Promise<Reviews> {
     const { review_Index, store_Index, user_Index, contents, stars } =
       addReviewDto;
-    return new Promise((resolve, reject) => {
-      pool.query(
-        query,
-        [review_Index, store_Index, user_Index, contents, stars],
-        (err, result) => {
-          if (err) reject(err);
-          else resolve(result);
-        }
-      );
+
+    return await prisma.reviews.create({
+      data: {
+        review_Index,
+        store_Index,
+        user_Index,
+        contents,
+        stars,
+        create_at: new Date()
+      }
     });
   }
 }

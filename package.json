@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/seoki180/9th_node_practice#readme",
   "dependencies": {
+    "@prisma/client": "^6.18.0",
     "@types/express": "^5.0.5",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
@@ -25,6 +26,7 @@
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "mysql2": "^3.15.3",
+    "prisma": "^6.18.0",
     "tsoa": "^6.6.0",
     "ulid": "^3.0.1"
   },

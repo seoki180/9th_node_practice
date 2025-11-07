@@ -11,7 +11,7 @@ class UserController {
   //   "id": "hong123",
   //   "password": "securePassword123!",
   //   "email": "hong@example.com",
-  //   "birthday": "1990-05-15",
+  //   "birthday": "2023-11-04T10:00:00+09:00",
   //   "address": "서울시 강남구 테헤란로 123",
   //   "gender": 1,
   //   "profile_url": "https://example.com/profiles/hong123.jpg",

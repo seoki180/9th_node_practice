@@ -1,3 +1,4 @@
+import { Missions_status } from '../../generated/prisma/enums';
 const enum MissionStatus {
   pending,
   progress,
@@ -10,7 +11,7 @@ export class AddMissionDto {
   area_index!: string;
   contents!: string;
   point!: number;
-  status!: MissionStatus;
+  status!: Missions_status;
   created_at!: Date;
 
   constructor(body: any) {
@@ -24,7 +25,7 @@ export class AddMissionDto {
 
 export class UpdateMissionDto {
   mission_Index!: string;
-  mission_status!: MissionStatus;
+  mission_status!: Missions_status;
   area_Index!: string;
   store_Index!: string;
   user_Index!: string;
@@ -38,7 +39,7 @@ export class UpdateMissionDto {
 
 export interface SelectMission {
   mission_Index: string;
-  mission_status: MissionStatus;
+  mission_status: Missions_status;
   area_Index: string;
   store_Index: string;
   user_Index: string;

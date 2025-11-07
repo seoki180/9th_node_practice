@@ -1,21 +1,18 @@
-import pool from '../../config/db';
+import { prisma } from '../../config/prisma';
 import { SignupDTO } from './user.dto';
+import { Users } from '../../generated/prisma/client';
 
 export class UserModel {
-  static async selectUserInfo(id: string): Promise<any> {
-    const queryString = process.env.SELECT_USER_INFO_Q;
-    const query: string = queryString ?? '';
-    return new Promise((resolve, reject) => {
-      pool.query(query, [id], (err, result) => {
-        if (err) reject(err);
-        else resolve(result);
-      });
+  static async selectUserInfo(id: string): Promise<boolean> {
+    const check = await prisma.users.findFirst({
+      where: {
+        id: id
+      }
     });
+    return check == null ? false : true;
   }
 
-  static async insertUser(signupDto: SignupDTO) {
-    const queryString = process.env.INSERT_USER_Q;
-    const query: string = queryString ?? '';
+  static async insertUser(signupDto: SignupDTO): Promise<Users> {
     const {
       user_Index,
       name,
@@ -30,28 +27,22 @@ export class UserModel {
       profile_url,
       phone
     } = signupDto;
-    return new Promise((resolve, reject) => {
-      pool.query(
-        query,
-        [
-          user_Index,
-          name,
-          id,
-          password,
-          salt,
-          email,
-          birthday,
-          address,
-          gender,
-          point,
-          profile_url,
-          phone
-        ],
-        (err, result) => {
-          if (err) reject(err);
-          else resolve(result as any);
-        }
-      );
+
+    return await prisma.users.create({
+      data: {
+        user_Index,
+        name,
+        id,
+        password,
+        salt,
+        email,
+        birthday,
+        address,
+        gender,
+        point,
+        profile_url,
+        phone
+      }
     });
   }
 }

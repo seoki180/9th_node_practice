@@ -7,7 +7,7 @@ export class SignupDTO {
   email!: string;
   birthday!: Date;
   address: string;
-  gender: string;
+  gender: number;
   point!: number;
   profile_url!: string;
   phone!: string;
