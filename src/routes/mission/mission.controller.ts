@@ -2,7 +2,7 @@ import express from 'express';
 import { Request, Response } from 'express';
 import { AddMissionDto, UpdateMissionDto } from './mission.dto';
 import { MissionService } from './mission.service';
-import { ResponseBase } from '../../config/response';
+
 const missionRouter = express.Router();
 
 class MissionController {
@@ -17,23 +17,9 @@ class MissionController {
     try {
       const addMissionDto: AddMissionDto = new AddMissionDto(req.body);
       const mission = await MissionService.addMission(addMissionDto);
-
-      res.json(
-        new ResponseBase({
-          resultType: 'SUCCESS',
-          data: mission,
-          message: '미션 생성 성공'
-        })
-      );
+      res.successResponse(mission, '미션 생성 성공');
     } catch (error: any) {
-      res.status(500).json(
-        new ResponseBase({
-          resultType: 'FAIL',
-          data: null,
-          message: '미션 생성 실패',
-          error: error.message
-        })
-      );
+      res.failResponse('미션 생성 실패', error);
     }
   }
 
@@ -45,29 +31,15 @@ class MissionController {
   static async startMission(req: Request, res: Response) {
     try {
       const startMissionDto: UpdateMissionDto = new UpdateMissionDto(req.body);
-
       await MissionService.startMission(startMissionDto);
-
-      res.json(
-        new ResponseBase({
-          resultType: 'SUCCESS',
-          data: null,
-          message: '미션 시작 성공'
-        })
-      );
+      res.successResponse(null, '미션 시작 성공');
     } catch (error: any) {
-      res.status(500).json(
-        new ResponseBase({
-          resultType: 'FAIL',
-          data: null,
-          message: '미션 시작 실패',
-          error: error.message
-        })
-      );
+      res.failResponse('미션 시작 실패', error);
     }
   }
 }
 
 missionRouter.post('/add', MissionController.addMission);
 missionRouter.post('/start', MissionController.startMission);
+
 export { missionRouter };

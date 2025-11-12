@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { SignupDTO } from './user.dto';
 import { Request, Response } from 'express';
 import { ResponseBase } from '../../config/response';
+import { HttpError } from '../../middleware/error';
 
 const userRouter = express.Router();
 class UserController {
@@ -21,22 +22,9 @@ class UserController {
     try {
       const body = new SignupDTO(req.body);
       await UserService.signupService(body);
-      res.json(
-        new ResponseBase({
-          resultType: 'SUCCESS',
-          data: null,
-          message: '회원가입 성공'
-        })
-      );
+      res.successResponse(null, '회원가입성공');
     } catch (error: any) {
-      res.status(500).json(
-        new ResponseBase({
-          resultType: 'FAIL',
-          data: null,
-          message: '회원가입 실패',
-          error: error.message
-        })
-      );
+      res.failResponse('회원가입 실패', error);
     }
   }
 }

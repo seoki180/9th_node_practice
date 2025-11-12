@@ -1,9 +1,5 @@
 import { Missions_status } from '../../generated/prisma/enums';
-const enum MissionStatus {
-  pending,
-  progress,
-  done
-}
+import { Missions } from '../../generated/prisma/client';
 
 export class AddMissionDto {
   mission_index!: string;

@@ -2,12 +2,13 @@ import { ulid } from 'ulid';
 import { SignupDTO } from './user.dto';
 import { createHashedPassword } from '../../config/crypto';
 import { UserModel } from './user.model';
+import { DuplicatedError } from '../../middleware/error';
 
 export class UserService {
   public static async idCheckService(id: string): Promise<void> {
     const isDup = await UserModel.selectUserInfo(id);
     if (isDup) {
-      throw new Error('아이디가 중복됨');
+      throw new DuplicatedError();
     }
   }
 

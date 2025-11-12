@@ -5,7 +5,6 @@ import { Stores, Reviews } from '../../generated/prisma/client';
 export class StoreModel {
   static async selectStore(addReviewDto: AddReviewDto): Promise<Stores | null> {
     const { store_Index } = addReviewDto;
-
     return await prisma.stores.findFirst({
       where: {
         store_Index

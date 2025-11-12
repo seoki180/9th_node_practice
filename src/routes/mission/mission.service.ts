@@ -1,6 +1,7 @@
 import { ulid } from 'ulid';
 import { AddMissionDto, SelectMission, UpdateMissionDto } from './mission.dto';
 import { MissionModel } from './mission.model';
+import { MissionNotFoundError } from '../../middleware/error';
 
 export class MissionService {
   public static async addMission(addMissionDto: AddMissionDto) {
@@ -16,7 +17,7 @@ export class MissionService {
     );
 
     if (!Array.isArray(checkMission) || checkMission.length === 0) {
-      throw new Error('미션을 찾을 수 없습니다.');
+      throw new MissionNotFoundError();
     }
     const { mission_Index, area_Index, store_Index } = checkMission[0];
 
