@@ -5,14 +5,7 @@ import { MissionService } from './mission.service';
 
 const missionRouter = express.Router();
 
-class MissionController {
-  // {
-  //     "store_index":"1234",
-  //     "area_index":"test",
-  //     "content":"10000원 이상의 식사를 하세요!",
-  //     "point":50,
-  //     "status":"pending"
-  // }
+export class MissionController {
   static async addMission(req: Request, res: Response) {
     try {
       const addMissionDto: AddMissionDto = new AddMissionDto(req.body);
@@ -23,11 +16,6 @@ class MissionController {
     }
   }
 
-  // {
-  //     "mission_Index" : "01K8RAA94V3N9A4F1D6K000PZT",
-  //     "user_Index":"1234",
-  //     "mission_status" : "pending"
-  // }
   static async startMission(req: Request, res: Response) {
     try {
       const startMissionDto: UpdateMissionDto = new UpdateMissionDto(req.body);
@@ -40,6 +28,7 @@ class MissionController {
 }
 
 missionRouter.post('/add', MissionController.addMission);
+
 missionRouter.post('/start', MissionController.startMission);
 
 export { missionRouter };

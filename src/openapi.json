@@ -1,0 +1,520 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "UMC 9th",
+    "description": "UMC 9th Node.js 테스트 프로젝트입니다.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Store",
+      "description": "가게 관련 API"
+    },
+    {
+      "name": "Mission",
+      "description": "미션 관련 API"
+    },
+    {
+      "name": "User",
+      "description": "사용자 관련 API"
+    }
+  ],
+  "paths": {
+    "/api/store/add": {
+      "post": {
+        "tags": ["Store"],
+        "summary": "가게 생성",
+        "description": "새로운 가게를 생성합니다.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["area_index", "name", "location", "lat", "lng"],
+                "properties": {
+                  "area_index": {
+                    "type": "string",
+                    "example": "test",
+                    "description": "지역 인덱스"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "박지혜순대국",
+                    "description": "가게 이름"
+                  },
+                  "location": {
+                    "type": "string",
+                    "example": "인하대",
+                    "description": "가게 위치"
+                  },
+                  "lat": {
+                    "type": "string",
+                    "example": "12",
+                    "description": "위도"
+                  },
+                  "lng": {
+                    "type": "string",
+                    "example": "12",
+                    "description": "경도"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "가게 생성 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "가게 생성 성공"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "가게 생성 실패",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "가게 생성 실패"
+                    },
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/store/review/add": {
+      "post": {
+        "tags": ["Store"],
+        "summary": "리뷰 생성",
+        "description": "가게에 대한 리뷰를 생성합니다.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["store_Index", "user_Index", "contents", "stars"],
+                "properties": {
+                  "store_Index": {
+                    "type": "string",
+                    "example": "01K8RAA94V3N9A4F1D6K000PZT",
+                    "description": "가게 인덱스"
+                  },
+                  "user_Index": {
+                    "type": "string",
+                    "example": "01K8RAA94V3N9A4F1D6K000PZT",
+                    "description": "사용자 인덱스"
+                  },
+                  "contents": {
+                    "type": "string",
+                    "example": "test",
+                    "description": "리뷰 내용"
+                  },
+                  "stars": {
+                    "type": "number",
+                    "example": 5,
+                    "minimum": 0,
+                    "maximum": 5,
+                    "description": "별점 (0-5)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "리뷰 생성 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "리뷰 생성 성공"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "리뷰 생성 실패",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "리뷰 생성 실패"
+                    },
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mission/add": {
+      "post": {
+        "tags": ["Mission"],
+        "summary": "미션 생성",
+        "description": "새로운 미션을 생성합니다.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "store_index",
+                  "area_index",
+                  "contents",
+                  "point",
+                  "status"
+                ],
+                "properties": {
+                  "store_index": {
+                    "type": "string",
+                    "example": "1234",
+                    "description": "가게 인덱스"
+                  },
+                  "area_index": {
+                    "type": "string",
+                    "example": "test",
+                    "description": "지역 인덱스"
+                  },
+                  "contents": {
+                    "type": "string",
+                    "example": "10000원 이상의 식사를 하세요!",
+                    "description": "미션 내용"
+                  },
+                  "point": {
+                    "type": "number",
+                    "example": 50,
+                    "description": "포인트"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": ["pending", "active", "completed", "cancelled"],
+                    "example": "pending",
+                    "description": "미션 상태"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "미션 생성 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "미션 생성 성공"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "미션 생성 실패",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "미션 생성 실패"
+                    },
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mission/start": {
+      "post": {
+        "tags": ["Mission"],
+        "summary": "미션 시작",
+        "description": "사용자가 미션을 시작합니다.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["mission_Index", "user_Index", "mission_status"],
+                "properties": {
+                  "mission_Index": {
+                    "type": "string",
+                    "example": "01K8RAA94V3N9A4F1D6K000PZT",
+                    "description": "미션 인덱스"
+                  },
+                  "user_Index": {
+                    "type": "string",
+                    "example": "1234",
+                    "description": "사용자 인덱스"
+                  },
+                  "mission_status": {
+                    "type": "string",
+                    "enum": ["pending", "active", "completed", "cancelled"],
+                    "example": "pending",
+                    "description": "미션 상태"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "미션 시작 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "미션 시작 성공"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "미션 시작 실패",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "미션 시작 실패"
+                    },
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/signup": {
+      "post": {
+        "tags": ["User"],
+        "summary": "회원가입",
+        "description": "새로운 사용자를 등록합니다.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "id",
+                  "password",
+                  "email",
+                  "birthday",
+                  "address",
+                  "gender",
+                  "profile_url",
+                  "phone"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "홍길동",
+                    "description": "사용자 이름"
+                  },
+                  "id": {
+                    "type": "string",
+                    "example": "hong123",
+                    "description": "사용자 ID"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "securePassword123!",
+                    "description": "비밀번호"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "hong@example.com",
+                    "description": "이메일 주소"
+                  },
+                  "birthday": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2023-11-04T10:00:00+09:00",
+                    "description": "생년월일"
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": "서울시 강남구 테헤란로 123",
+                    "description": "주소"
+                  },
+                  "gender": {
+                    "type": "number",
+                    "example": 1,
+                    "description": "성별"
+                  },
+                  "profile_url": {
+                    "type": "string",
+                    "example": "https://example.com/profiles/hong123.jpg",
+                    "description": "프로필 이미지 URL"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "010-1234-5678",
+                    "description": "전화번호"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "회원가입 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "회원가입성공"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "회원가입 실패",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "회원가입 실패"
+                    },
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,12 +1,13 @@
 import './env';
 import express from 'express';
 import cors from 'cors';
-import { storeRouter } from './routes/store/store.controller';
+import { StoreController, storeRouter } from './routes/store/store.controller';
 import morgan from 'morgan';
 import { errorHandler, notFound } from './middleware/error';
 import { missionRouter } from './routes/mission/mission.controller';
 import { userRouter } from './routes/user/user.controller';
 import { responseHandler } from './config/response';
+import swaggerSetup from './config/swagger';
 
 const app = express();
 const port = process.env.EC2_PORT || 3000;
@@ -22,6 +23,7 @@ app.use(morgan('dev')); // HTTP Req 요청 로그 출력
 app.use('/api/store', storeRouter);
 app.use('/api/mission', missionRouter);
 app.use('/api/user', userRouter);
+swaggerSetup(app);
 // 에러 처리
 app.use(notFound);
 app.use(errorHandler);

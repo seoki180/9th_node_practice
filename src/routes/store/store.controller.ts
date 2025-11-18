@@ -4,14 +4,7 @@ import { AddReviewDto, AddStoreDto } from './store.dto';
 import { Request, Response } from 'express';
 
 const storeRouter = express.Router();
-class StoreController {
-  // {
-  //  "area_index": "test",
-  //  "name": "박지혜순대국",
-  //  "location":"인하대",
-  //  "lat":12,
-  //  "lng":12
-  // }
+export class StoreController {
   static async addStore(req: Request, res: Response) {
     try {
       const addStoreDto: AddStoreDto = new AddStoreDto(req.body);
@@ -22,12 +15,6 @@ class StoreController {
     }
   }
 
-  // {
-  //   "store_Index": "01K8RAA94V3N9A4F1D6K000PZT",
-  //   "user_Index": "01K8RAA94V3N9A4F1D6K000PZT",
-  //   "contents": "test",
-  //   "stars": 5
-  // }
   static async addReview(req: Request, res: Response) {
     try {
       const addReviewDto: AddReviewDto = new AddReviewDto(req.body);

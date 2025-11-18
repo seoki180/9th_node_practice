@@ -6,18 +6,7 @@ import { ResponseBase } from '../../config/response';
 import { HttpError } from '../../middleware/error';
 
 const userRouter = express.Router();
-class UserController {
-  // {
-  //   "name": "홍길동",
-  //   "id": "hong123",
-  //   "password": "securePassword123!",
-  //   "email": "hong@example.com",
-  //   "birthday": "2023-11-04T10:00:00+09:00",
-  //   "address": "서울시 강남구 테헤란로 123",
-  //   "gender": 1,
-  //   "profile_url": "https://example.com/profiles/hong123.jpg",
-  //   "phone": "010-1234-5678"
-  // }
+export class UserController {
   static async signup(req: Request, res: Response) {
     try {
       const body = new SignupDTO(req.body);
