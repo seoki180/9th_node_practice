@@ -17,7 +17,7 @@ class MissionController {
     try {
       const addMissionDto: AddMissionDto = new AddMissionDto(req.body);
       const mission = await MissionService.addMission(addMissionDto);
-      res.successResponse(mission, '미션 생성 성공');
+      res.successResponse('미션 생성 성공', mission, 201);
     } catch (error: any) {
       res.failResponse('미션 생성 실패', error);
     }
@@ -32,7 +32,7 @@ class MissionController {
     try {
       const startMissionDto: UpdateMissionDto = new UpdateMissionDto(req.body);
       await MissionService.startMission(startMissionDto);
-      res.successResponse(null, '미션 시작 성공');
+      res.successResponse('미션 시작 성공', null, 204);
     } catch (error: any) {
       res.failResponse('미션 시작 실패', error);
     }

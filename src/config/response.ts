@@ -37,15 +37,15 @@ export const responseHandler = (
   // 성공 응답 헬퍼 메서드
   res.successResponse = (
     data: any = null,
-    message: string = '요청이 성공적으로 처리되었습니다.'
+    message: string = '요청이 성공적으로 처리되었습니다.',
+    status: number = 200
   ) => {
-    return res.json(
-      new ResponseBase({
-        resultType: 'SUCCESS',
-        data,
-        message
-      })
-    );
+    const r = new ResponseBase({
+      resultType: 'SUCCESS',
+      data,
+      message
+    });
+    return res.status(status).json(r);
   };
 
   // 실패 응답 헬퍼 메서드
@@ -57,7 +57,7 @@ export const responseHandler = (
       new ResponseBase({
         resultType: 'FAIL',
         data: null,
-        message: error.message,
+        message: message,
         error: error
       })
     );

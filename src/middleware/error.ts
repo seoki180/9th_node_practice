@@ -12,6 +12,16 @@ class HttpError extends Error {
     super(message);
     this.status = status;
     this.code = code; // 비즈니스 에러 코드
+    this.message = message;
+  }
+
+  // JSON 직렬화 시 모든 속성을 포함하도록 설정
+  toJSON() {
+    return {
+      status: this.status,
+      code: this.code,
+      message: this.message
+    };
   }
 }
 // 전체 에러클래스
@@ -63,6 +73,7 @@ class ForbiddenError extends HttpError {
 const notFound = (req: Request, res: Response, next: NextFunction) => {
   const e = new HttpError(404, 'not !', 'e404');
   res.failResponse('not found', e);
+  next();
 };
 
 const errorHandler = (
@@ -71,7 +82,11 @@ const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  res.failResponse('unknown server error', new HttpError());
+  res.failResponse(
+    'unknown server error',
+    new HttpError(500, '내부서버에러', 'e5')
+  );
+  next();
 };
 
 export {

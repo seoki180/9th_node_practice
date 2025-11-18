@@ -16,7 +16,7 @@ class StoreController {
     try {
       const addStoreDto: AddStoreDto = new AddStoreDto(req.body);
       const store = await StoreService.addStore(addStoreDto);
-      res.successResponse(store, '가게 생성 성공');
+      res.successResponse('가게 생성 성공', store, 202);
     } catch (error: any) {
       res.failResponse('가게 생성 실패', error);
     }
@@ -32,9 +32,8 @@ class StoreController {
     try {
       const addReviewDto: AddReviewDto = new AddReviewDto(req.body);
       const review = await StoreService.addReview(addReviewDto);
-      res.successResponse(review, '리뷰 생성 성공');
+      res.successResponse('리뷰 생성 성공', review, 202);
     } catch (error: any) {
-      console.log(error);
       res.failResponse('리뷰 생성 실패', error);
     }
   }

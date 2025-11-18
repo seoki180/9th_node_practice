@@ -14,7 +14,6 @@ export class StoreModel {
 
   static async insertStore(addStoreDto: AddStoreDto): Promise<Stores> {
     const { store_index, area_index, name, location, lat, lng } = addStoreDto;
-
     return await prisma.stores.create({
       data: {
         store_Index: store_index,

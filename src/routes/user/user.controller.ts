@@ -22,7 +22,7 @@ class UserController {
     try {
       const body = new SignupDTO(req.body);
       await UserService.signupService(body);
-      res.successResponse(null, '회원가입성공');
+      res.successResponse('회원가입성공', null, 202);
     } catch (error: any) {
       res.failResponse('회원가입 실패', error);
     }

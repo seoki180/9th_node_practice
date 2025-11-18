@@ -1,5 +1,4 @@
 import 'express';
-import { CustomJwt } from './jwt';
 import { HttpError } from '../src/middleware/error';
 
 declare global {
@@ -7,7 +6,7 @@ declare global {
     export interface Response {
       resultType: string;
       data: any;
-      successResponse(data?: any, message: string): Response;
+      successResponse(message: string, data?: any, status: number): Response;
       failResponse(message: string, error: HttpError): Response;
     }
   }

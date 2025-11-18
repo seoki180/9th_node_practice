@@ -7,7 +7,7 @@ export class StoreService {
   public static async addStore(addStoreDto: AddStoreDto) {
     addStoreDto.store_index = ulid();
     const store = await StoreModel.insertStore(addStoreDto);
-    return addStoreDto;
+    return store;
   }
 
   public static async addReview(addReviewDto: AddReviewDto) {
